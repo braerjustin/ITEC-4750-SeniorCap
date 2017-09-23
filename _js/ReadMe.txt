@@ -1,1 +1,0 @@
-All JavaScript goes here.
