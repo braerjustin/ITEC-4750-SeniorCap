@@ -1,4 +1,7 @@
 class SurveysController < ApplicationController
+
+  #region pages
+
   def index
     unless (session[:user_id])
       redirect_to controller: 'login'
@@ -17,7 +20,7 @@ class SurveysController < ApplicationController
     unless (session[:user_id])
       redirect_to controller: 'login'
     end
-    @survey = Survey.new
+    @survey = Survey.new(survey_params)
   end
 
   def edit
@@ -31,6 +34,35 @@ class SurveysController < ApplicationController
     end
   end
 
+  #end pages
+
+  #region CRUD
+
+  def create
+    @survey = Survey.new(survey_params)
+    if @survey.save
+      redirect_to @survey
+    else
+      render 'new'
+    end
+  end
+
+  def update
+    @survey = Survey.find(params[:id])
+    if @survey.update(survey_params)
+      redirect_to @survey
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @survey = Survey.find(params[:id])
+    @survey.destroy
+    redirect_to action: 'index'
+  end
+
+  #end CRUD
 
   private
   def survey_params

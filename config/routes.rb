@@ -1,3 +1,8 @@
 Rails.application.routes.draw do
-  resources :surveys, :users
+  resources :surveys do
+    resources :questions do
+      resources :choices
+    end
+  end
+  resources :users
 end
